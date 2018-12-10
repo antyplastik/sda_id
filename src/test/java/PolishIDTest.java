@@ -8,14 +8,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 @RunWith(JUnitParamsRunner.class)
-public class IdPolishTest {
+public class PolishIDTest {
 
     Validator validator;
 
     @Test
     @Parameters(method = "somePolishIdNumbers")
     public void testCheckIfIdNumberIsCorrect(String inputId, boolean expected) {
-        validator = new IdPolish(inputId);
+        validator = new PolishID(inputId);
         assertThat(validator.validate(inputId), is(expected));
     }
 //ABS 123456

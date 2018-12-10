@@ -1,9 +1,8 @@
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class IdPolish implements Validator {
+public class PolishID implements Validator {
 
 //      A    B	C	D	E	F	G	H	I	J	K	L	M	N	O	P	Q	R	S	T	U	V	W	X	Y	Z
 //      10	11	12	13	14	15	16	17	18	19	20	21	22	23	24	25	26	27	28	29	30	31	32	33	34	35  Value
@@ -17,9 +16,10 @@ public class IdPolish implements Validator {
 // 211 mod 10 = 1 czyli liczba kontrolna sie zgadza
 
     private String idNumber;
+    String polishIdFormatRegex = "([a-zA-Z]{3})([\\s]*)([0-9]{6})";
     private Map<Character, Integer> charMap;
 
-    public IdPolish(String idNumber) {
+    public PolishID(String idNumber) {
         this.idNumber = idNumber;
         charMap = new HashMap<>();
         setCharMap();
@@ -40,28 +40,34 @@ public class IdPolish implements Validator {
     public boolean validate(String inputString) {
         boolean length = checkLenght(inputString);
         boolean format = checktFormat(inputString);
+        boolean calculation = checkCalculation(inputString);
 
+        if (length == true && format == true)
+            return true;
+        else
+            return false;
+    }
+
+    private boolean checkCalculation(String inputString) {
+        
         return false;
     }
 
-    private boolean checktFormat(String inputString) {
-        String polishIdFormat = "";
-
-        if (Pattern.matches())
-            ;
-
-        return false;
+    public boolean checktFormat(String inputString) {
+        if (Pattern.matches(polishIdFormatRegex, inputString))
+            return true;
+        else
+            return false;
     }
 
-    private boolean checkLenght(String inputString) {
+    public boolean checkLenght(String inputString) {
         int polishIdLen = inputString.length();
         inputString = inputString.replaceAll("\\s", "");
 
         if (polishIdLen == 9)
             return true;
-
-
-        return false;
+        else
+            return false;
     }
 
 }
