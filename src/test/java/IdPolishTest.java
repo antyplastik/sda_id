@@ -1,12 +1,8 @@
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.InputMismatchException;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -17,9 +13,9 @@ public class IdPolishTest {
     Validator validator;
 
     @Test
-    @Parameters(method = "")
+    @Parameters(method = "somePolishIdNumbers")
     public void testCheckIfIdNumberIsCorrect(String inputId, boolean expected) {
-        validator = new IdPolish();
+        validator = new IdPolish(inputId);
         assertThat(validator.validate(inputId), is(expected));
     }
 //ABS 123456
