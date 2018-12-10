@@ -1,6 +1,8 @@
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class PolishID implements Validator {
 
@@ -18,6 +20,7 @@ public class PolishID implements Validator {
     private String idNumber;
     String polishIdFormatRegex = "([a-zA-Z]{3})([\\s]*)([0-9]{6})";
     private Map<Character, Integer> charMap;
+    private int[] charWeight = {7, 3, 1, 0, 7, 3, 1, 7, 3};
 
     public PolishID(String idNumber) {
         this.idNumber = idNumber;
@@ -30,6 +33,10 @@ public class PolishID implements Validator {
     private void setCharMap() {
 //        65 - 90
         int value = 10;
+
+        for (int i = 0; i < value; i++)
+            charMap.put((char) (48 + i), i);
+
         for (int i = 65; i <= 90; i++) {
             charMap.put((char) i, value);
             value++;
@@ -38,31 +45,54 @@ public class PolishID implements Validator {
 
     @Override
     public boolean validate(String inputString) {
-        boolean length = checkLenght(inputString);
-        boolean format = checktFormat(inputString);
-        boolean calculation = checkCalculation(inputString);
 
-        if (length == true && format == true)
+        this.idNumber = inputString.toUpperCase();
+
+        boolean length = checkLenght(idNumber);
+        if (length == false)
+            return false;
+        else {
+            boolean format = checktFormat(idNumber);
+            boolean calculation = checkCalculation(idNumber);
+
+            if (format == true && calculation == true)
+                return true;
+            else
+                return false;
+        }
+    }
+
+    private boolean checkCalculation(String inputString) {
+        IntStream charStream = IntStream.range(0, 9);
+        int sum = charStream
+                .map(i -> {
+                    int value = getValueOfSign(inputString.charAt(i));
+                    int weight = charWeight[i];
+                    return value * weight;
+                }).sum();
+
+        if ((sum % 10) == Integer.parseInt(inputString.charAt(3) + ""))
             return true;
         else
             return false;
     }
 
-    private boolean checkCalculation(String inputString) {
-        
-        return false;
+    private int getValueOfSign(char c) {
+        int value = 0;
+        value = Integer.valueOf(charMap.get(c).toString());
+        return value;
     }
 
-    public boolean checktFormat(String inputString) {
+    private boolean checktFormat(String inputString) {
         if (Pattern.matches(polishIdFormatRegex, inputString))
             return true;
         else
             return false;
     }
 
-    public boolean checkLenght(String inputString) {
-        int polishIdLen = inputString.length();
-        inputString = inputString.replaceAll("\\s", "");
+    private boolean checkLenght(String inputString) {
+        this.idNumber = inputString.replaceAll("\\s", "");
+        int polishIdLen = idNumber.length();
 
         if (polishIdLen == 9)
             return true;
