@@ -22,7 +22,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'Main_package.Main'
+        attributes 'Main-Class': 'main_package.Main'
     }
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
