@@ -1,8 +1,9 @@
+package ID;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class PolishID implements Validator {
 
@@ -99,5 +100,4 @@ public class PolishID implements Validator {
         else
             return false;
     }
-
 }

@@ -1,3 +1,5 @@
+import ID.PolishID;
+import ID.Validator;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 
