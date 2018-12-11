@@ -7,7 +7,7 @@ import static picocli.CommandLine.*;
 @Command(name = "ID", mixinStandardHelpOptions = true, version = ("ID checker" + " v1.0"))
 public class PicoTerm implements Runnable {
 
-    @Parameters(arity = "1..*", paramLabel = "ID", description = "type ID number to check")
+    @Parameters(arity = "1..*", paramLabel = "ID", description = "type ID numbers to check")
     private String[] ids;
 
     public void run() {
